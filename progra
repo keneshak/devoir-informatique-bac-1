@@ -1,0 +1,9 @@
+import turtle
+import random
+
+def dessiner_arbre(longueur : float ,
+ angle_min : float , angle_max : float ,
+ nombre_sous_arbres_min : int , nombre_sous_arbres_max : int ,
+ facteur_min : float , facteur_max : float ,
+ longueur_min : float):
+    

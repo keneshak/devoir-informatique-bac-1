@@ -1,0 +1,8 @@
+import curses
+
+
+# deplcemnet du curseur 
+h = gauche 
+j = descendre
+k = droite
+l= haut 

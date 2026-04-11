@@ -1,25 +1,70 @@
+
+import sys
+import os
+from curses import wrapper
 import curses
-stdscr = curses.initscr()
+
+def charger_fichier(chemin):
+    if os.path.exists(chemin):
+        with open(chemin, "r") as f:
+            return f.read().splitlines()
+    else:
+        return [""]   
+    
+if len(sys.argv) > 1:
+    chemin = sys.argv[1]
+    buffer = charger_fichier(chemin)
+else:
+    chemin = None
+    buffer = [""]
+    
+def executer_commande(cmd, buffer):
+    parts = cmd.split()
+
+    if len(parts) >= 2 and parts[0] in ["open", "o"]:
+        chemin = parts[1]
+        return charger_fichier(chemin), chemin
+
+    return buffer, None
+
+commande = "open test.txt"
+buffer, chemin = executer_commande(commande, buffer)
+     
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
+presse_papier= None
+
+
+def copier (selection):
+    presse_papier=open("pressepapier.txt","w+")
+   
+    presse_papier.write(selection)
+    return 
+def coller ():
+    if vide:
+        return "print rien à coller"
+    else:
+        
+        presse_papier= open("pressepapier.txt","r")
+        coller= presse_papier.readlines()
+        return coller
+    
+    
 
 class Window:
     def __init__(self):
         pass
     def resize (self, x0, y0, width, height):
-        
+        width,height=stdscr.getmaxyx()
         self.x0=x0
         self.y0=y0
         self.ligne_max=height
         self.colonne_max = width
         
-        
-
         pass
     def draw(self, screen):
         pass
     
-    
-from curses import wrapper
-
 def main(stdscr):
     
     
@@ -36,45 +81,45 @@ def main(stdscr):
         stdscr.refresh()
         stdscr.getkey()"""
     def deplacement_curseur():#classe qui gere les déplacement
+        pass
     
+    enter_mode =stdscr.getch
+    def mode (enter_mode ):
         
-    while True:
-        enter_mode =Window.getch
-        
-        if enter_mode==151: # i = entree en mode insertion.
-            while enter_mode!=27:
-                Window.getch()
-                """deplacement_curseur.droit(position) claasse de deplacement """
-                
+        while True:
+            if enter_mode==151: # i = entree en mode insertion.
+                while enter_mode!=27:
+                    stdscr.getch()
+                    """deplacement_curseur.droit(position) claasse de deplacement """
+                    
+                    """mouvement du curseur desactiver"""
+            elif enter_mode== 166:#v entree en mode visuel
+                while enter_mode!=27:
+                    deplacement_curseur() # sert a choisir pour le texte à copier 
+                    selection=None
+                    if enter_mode== 89:
+                        presse_papier = open (presse_papier_de_la_fenetre,"w")
+                        presse_papier.write(selection)
+                        enter_mode=27
+                        return False
+                    if enter_mode == 88:
+                        presse_papier = open (presse_papier_de_la_fenetre,"w")
+                        presse_papier.write= selection 
+                        """supprimer selection du buffer """
+                        enter_mode=27
+                        return False 
+                    
                 """mouvement du curseur desactiver"""
-        elif enter_mode== 166:#v entree en mode visuel
-            while enter_mode!=27:
-                deplacement_curseur() # sert a choisir pour le texte à copier 
-                selection=None
-                if enter_mode== 89:
-                    presse_papier = open (presse_papier_de_la_fenetre,"w")
-                    presse_papier.write= selection 
-                    enter_mode=27
-                    return False
-                if enter_mode == 88:
-                    presse_papier = open (presse_papier_de_la_fenetre,"w")
-                    presse_papier.write= selection 
-                    """supprimer selection du buffer """
-                    enter_mode=27
-                    return False 
+            elif enter_mode== 27: # esc = entree en mode normal
+                pass
                 
-             """mouvement du curseur desactiver"""
-        elif enter_mode== 27: # esc = entree en mode normal
-            
-        elif enter_mode ==112 :# p copier le contenu 
-            while enter_mode!=27:
-                
-                """mouvement du curseur désactiver"""
-                """copier le contenu du presse papier dansle buffer """
-        elif enter_mode ==8:# supprime le dernier caractère 
+            elif enter_mode ==112:# p copier le contenu 
+                while enter_mode!=27:
+                    
+                    """mouvement du curseur désactiver"""
+                    """copier le contenu du presse papier dansle buffer """
+            elif enter_mode ==8:# supprime le dernier caractère 
+                pass
             
 
-
-wrapper(main)
-
-e
+curses.wrapper(main)
